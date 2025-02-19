@@ -11,6 +11,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ijnfuso</title>
     <style>
+        @media (max-width: 768px) {
+            .container {
+            width: 90%;
+            padding: 15px;
+            max-height: 70vh; /* Adjust to give more space on smaller screens */
+        }
+
+    .projects {
+        grid-template-columns: 1fr; /* Stack projects vertically */
+    }
+
+    .social-container {
+        width: 200px;
+        top: 80px;
+        position: absolute; /* Keep it fixed for mobile */
+    }
+}
         body {
             background-color: #2E147A;
             color: #e1e1e1;
@@ -24,17 +41,20 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+            min-height: 100vh; /* Ensure full height is used */
+    overflow-y: scroll; /* Enable scrolling on the entire page */
         }
 
         .container {
             background-color: rgba(7, 3, 28, 0.65);
-            width: 80%;
+            width: 90%;
             max-width: 1000px;
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             position: relative;
             margin-top: 40px;
+            
         }
 
         /* Background galassia con gradiente Snow Leopard-like */
@@ -72,7 +92,7 @@
             align-items: center;
             justify-content: flex-start;
             position: absolute;
-            top: -20px;
+            top: -15px;
             left: 0;
             right: 0;
             border-radius: 10px 10px 0 0;
@@ -197,6 +217,7 @@
         .social-container .title-bar {
             padding: 0 10px;
             font-family: 'Helvetica Neue', Arial;
+            cursor: grab;
         }
 
         .social-container .buttons {
@@ -229,7 +250,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
-
+    
     </style>
 
 
@@ -275,9 +296,14 @@
             </div>
             <div class="project">
                 <h4>thingymabob 2:</h4>
-                <p>uhhh idk still working on it bleeehehe<br> find me on steam mate</p>
+                <h3>comments !!!</h3>
+                <p>have you ever felt the need to leave a comment for me to read??? no?? well too bad!!!<br>i have my own comment page!!!</p>
+                <a href="comments.html">comment time!!!</a>
+                <p>oh yeah also my steam :3</p>
                 <a href="https://steamcommunity.com/id/ijnfuso"><img src="steam.jpg" alt="my silly steam profile x3"></a>
+                
             </div>
+            
             <div class="project">
                 <h3>spotify!</h3>
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3McwsejHmMdCFPsppmDPCC?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -292,24 +318,25 @@
 </div>
 
 <!-- Container per i social -->
-<div class="social-container">
-    <div class="title-bar">
-        <div class="buttons">
-            <div class="button" style="background-color: #DF0F0F;"></div>
-            <div class="button" style="background-color: #FFDD00;"></div>
-            <div class="button" style="background-color: #3CBA54;"></div>
+
+    <div class="social-container" id="socialWindow">
+        <div class="title-bar" id="titleBar">
+            <div class="buttons">
+                <div class="button" style="background-color: #DF0F0F;"></div>
+                <div class="button" style="background-color: #FFDD00;"></div>
+                <div class="button" style="background-color: #3CBA54;"></div>
+            </div>
+            <span class="center">social.command</span>
         </div>
-        <span class="center">social.command</span>
-    </div>
-    <div>
-        <img src="discord-icon.png" alt="Discord">
-        <span>@ijnfuso</span>
-    </div>
-    <div>
-        <img src="twitter-icon.png" alt="Twitter">
-        <span>@ijnfusp</span>
-    </div>
-    <div>
+        <div>
+            <img src="discord-icon.png" alt="Discord">
+            <span>@ijnfuso</span>
+        </div>
+        <div>
+            <img src="twitter-icon.png" alt="Twitter">
+            <span>@ijnfusp</span>
+        </div>
+        <div>
         <img src="bluesky-icon.png" alt="Bluesky">
         <span>@ijnfusoreal.bsky.social</span>
     </div>
@@ -317,16 +344,44 @@
         <img src="mr-icon.png" alt="Macintosh Repository">
         <span>MR: ijnfuso</span>
     </div>
-</div>
+    </div>
 
+    <script>
+        const socialWindow = document.getElementById("socialWindow");
+        const titleBar = document.getElementById("titleBar");
+        
+        let offsetX = 0, offsetY = 0, isDragging = false;
+        
+        titleBar.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - socialWindow.offsetLeft;
+            offsetY = e.clientY - socialWindow.offsetTop;
+            socialWindow.style.cursor = "grabbing";
+        });
+        
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            socialWindow.style.left = `${e.clientX - offsetX}px`;
+            socialWindow.style.top = `${e.clientY - offsetY}px`;
+        });
+        
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            socialWindow.style.cursor = "grab";
+        });
+    </script>
 <!-- Script per il background galassia con gradiente Snow Leopard-like -->
 <script>
     const canvas = document.getElementById('galaxyCanvas');
     const ctx = canvas.getContext('2d');
 
     let stars = [];
-    let numStars = 500;
-
+    let numStars = 800;
+    function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawStars();
+        }
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -337,7 +392,7 @@
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: Math.random() * 1.3,
-                speed: Math.random() * 0.4 + 0.1
+                speed: Math.random() * 1.4 + 0.01
             });
         }
     }
@@ -374,14 +429,13 @@
         requestAnimationFrame(animateStars);
     }
 
-    createStars();
-    animateStars();
+    window.addEventListener('resize', resizeCanvas);
+
+        resizeCanvas();
+        createStars();
+        animateStars();
 </script>
 
-
-
-
-            <script>// Write JavaScript here</script>
         
     
 </body>

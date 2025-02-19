@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comments Page</title>
     <style>
-        body {
+         body {
             background-color: #2E147A;
             color: #e1e1e1;
             font-family: 'cascadia code', Arial, sans-serif;
@@ -186,7 +186,7 @@
         <section>
             <h2>Leave a Comment</h2>
             <form class="comments-form" id="commentsForm">
-                <input type="text" id="username" placeholder="Your Name" required>
+                <input type="text" id="username" placeholder="Your Nickname" required>
                 <textarea id="comment" placeholder="Your Comment" rows="4" required></textarea>
                 <button type="submit">Submit</button>
             </form>
@@ -200,6 +200,73 @@
         </section>
     </div>
 
+    <script type="module">
+        import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import {getDatabase, ref, onValue, push, set} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARrZ2Yla8D7MH2JtoHxBD_0eJ9R1axgpY",
+            authDomain: "comments-c1817.firebaseapp.com",
+            databaseURL: "https://comments-c1817-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "comments-c1817",
+            storageBucket: "comments-c1817.firebasestorage.app",
+            messagingSenderId: "965553376961",
+            appId: "1:965553376961:web:2b293f267caff97bf48e40"
+        };
+
+        if (!getApps().length) {
+            initializeApp(firebaseConfig);
+        }
+
+        const db = getDatabase();
+        const commentsRef = ref(db, 'comments');
+
+        // Fetch comments from Firebase
+        async function fetchComments() {
+            onValue(commentsRef, (snapshot) => {
+                const comments = snapshot.val();
+                const commentsList = document.getElementById('commentsList');
+                commentsList.innerHTML = '';
+                if (comments) {
+                    for (let id in comments) {
+                        const comment = comments[id];
+                        const commentElement = document.createElement('li');
+                        commentElement.classList.add('comment');
+                        commentElement.innerHTML = `
+                            <h3>${comment.username}</h3>
+                            <p>${comment.text}</p>
+                        `;
+                        commentsList.appendChild(commentElement);
+                    }
+                }
+            });
+        }
+
+        // Submit a new comment to Firebase
+        async function submitComment(username, comment) {
+            const newCommentRef = push(commentsRef);
+            await set(newCommentRef,{
+                username: username,
+                text: comment
+            });
+        }
+
+        // Event listener for form submission
+        const commentsForm = document.getElementById('commentsForm');
+        commentsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const comment = document.getElementById('comment').value;
+            submitComment(username, comment);
+            commentsForm.reset();
+        });
+
+        // Fetch comments on page load
+        fetchComments();
+
+        
+
+    </script>
     <script>
         const canvas = document.getElementById('galaxyCanvas');
         const ctx = canvas.getContext('2d');
@@ -266,90 +333,6 @@
 
         
     </script>
-    <script type="module">
-
-        // Import the functions you need from the SDKs you need
-      
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-      
-        // TODO: Add SDKs for Firebase products that you want to use
-      
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-      
-        // Your web app's Firebase configuration
-      
-        const firebaseConfig = {
-      
-          apiKey: "AIzaSyARrZ2Yla8D7MH2JtoHxBD_0eJ9R1axgpY",
-      
-          authDomain: "comments-c1817.firebaseapp.com",
-      
-          databaseURL: "https://comments-c1817-default-rtdb.europe-west1.firebasedatabase.app",
-      
-          projectId: "comments-c1817",
-      
-          storageBucket: "comments-c1817.firebasestorage.app",
-      
-          messagingSenderId: "965553376961",
-      
-          appId: "1:965553376961:web:2b293f267caff97bf48e40"
-      
-        };
-      
-      
-        // Initialize Firebase
-      
-        const app = initializeApp(firebaseConfig);
-      
-      </script>
-    <script>
-    
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-    
-        // Fetch comments from Firebase
-        async function fetchComments() {
-            const commentsRef = database.ref('comments');
-            commentsRef.on('value', (snapshot) => {
-                const comments = snapshot.val();
-                const commentsList = document.getElementById('commentsList');
-                commentsList.innerHTML = '';
-                for (let id in comments) {
-                    const comment = comments[id];
-                    const commentElement = document.createElement('li');
-                    commentElement.classList.add('comment');
-                    commentElement.innerHTML = `
-                        <h3>${comment.username}</h3>
-                        <p>${comment.text}</p>
-                    `;
-                    commentsList.appendChild(commentElement);
-                }
-            });
-        }
-    
-        // Submit a new comment to Firebase
-        async function submitComment(username, comment) {
-            const commentsRef = database.ref('comments');
-            const newCommentRef = commentsRef.push();
-            newCommentRef.set({
-                username: username,
-                text: comment
-            });
-        }
-    
-        // Event listener for form submission
-        const commentsForm = document.getElementById('commentsForm');
-        commentsForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const comment = document.getElementById('comment').value;
-            submitComment(username, comment);
-            commentsForm.reset();
-        });
-    
-        // Fetch comments on page load
-        fetchComments();
-    </script>
 </body>
 </html>
+

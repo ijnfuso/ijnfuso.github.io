@@ -370,17 +370,45 @@
             socialWindow.style.cursor = "grab";
         });
     </script>
-    <script>
-        // Initialize Firebase
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+      
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+      
+        // TODO: Add SDKs for Firebase products that you want to use
+      
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+      
+        // Your web app's Firebase configuration
+      
         const firebaseConfig = {
-            apiKey: "AIzaSyARrZ2Yla8D7MH2JtoHxBD_0eJ9R1axgpY",
-            authDomain: "comments-c1817.firebaseapp.com",
-            databaseURL: "https://comments-c1817-default-rtdb.europe-west1.firebasedatabase.app/",
-            projectId: "comments-c1817",
-            storageBucket: "comments-c1817.firebasestorage.app",
-            messagingSenderId: "965553376961",
-            appId: "1:965553376961:web:2b293f267caff97bf48e40"
+      
+          apiKey: "AIzaSyARrZ2Yla8D7MH2JtoHxBD_0eJ9R1axgpY",
+      
+          authDomain: "comments-c1817.firebaseapp.com",
+      
+          databaseURL: "https://comments-c1817-default-rtdb.europe-west1.firebasedatabase.app",
+      
+          projectId: "comments-c1817",
+      
+          storageBucket: "comments-c1817.firebasestorage.app",
+      
+          messagingSenderId: "965553376961",
+      
+          appId: "1:965553376961:web:2b293f267caff97bf48e40"
+      
         };
+      
+      
+        // Initialize Firebase
+      
+        const app = initializeApp(firebaseConfig);
+      
+      </script>
+    <script>
+        
     
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();

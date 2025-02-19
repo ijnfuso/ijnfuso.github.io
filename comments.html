@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments Page</title>
+    <title>comments ijnfuso</title>
     <style>
          body {
             background-color: #2E147A;
@@ -179,27 +179,31 @@
         </div>
 
         <header>
-            <h1>Comments Page</h1>
-            <p>Leave your comments below!</p>
+            <h1>comments!!!</h1>
+            <p>share here your silly comments, tell me something, discuss or idk :3<br>click <button onclick="emote()">here</button> for a list of emoticons!!!</p>
         </header>
 
         <section>
-            <h2>Leave a Comment</h2>
+            <h2>leave a comment</h2>
             <form class="comments-form" id="commentsForm">
-                <input type="text" id="username" placeholder="Your Nickname" required>
-                <textarea id="comment" placeholder="Your Comment" rows="4" required></textarea>
-                <button type="submit">Submit</button>
+                <input type="text" id="username" placeholder="nickname" required>
+                <textarea id="comment" placeholder="my comment yara yara ..." rows="4" required></textarea>
+                <button type="submit">post!!!</button>
             </form>
         </section>
 
         <section>
-            <h2>Comments</h2>
+            <h2>silly comments</h2>
             <ul class="comments-list" id="commentsList">
                 <!-- Comments will be appended here -->
             </ul>
         </section>
     </div>
-
+<script>
+function emote() {
+  alert("super duper cool emoticon list\n:cool: - cool sunglasses face emoticon\n:smiley: - simple smiley face\n:sad: - a lil sad emoticon (sosad)\n:wink: - simple winking face\n:heart: - a simple heart :3\n:steammocking: - literally the steammocking emoticon \n\n\n!!!BE SURE TO INCLUDE COLONS BEFORE AND AFTER!!!");
+}
+</script>
     <script type="module">
         import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
         import {getDatabase, ref, onValue, push, set} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
@@ -221,26 +225,81 @@
         const db = getDatabase();
         const commentsRef = ref(db, 'comments');
 
-        // Fetch comments from Firebase
-        async function fetchComments() {
-            onValue(commentsRef, (snapshot) => {
-                const comments = snapshot.val();
-                const commentsList = document.getElementById('commentsList');
-                commentsList.innerHTML = '';
-                if (comments) {
-                    for (let id in comments) {
-                        const comment = comments[id];
-                        const commentElement = document.createElement('li');
-                        commentElement.classList.add('comment');
-                        commentElement.innerHTML = `
-                            <h3>${comment.username}</h3>
-                            <p>${comment.text}</p>
-                        `;
-                        commentsList.appendChild(commentElement);
-                    }
-                }
-            });
+        // Emoticon mapping (You can expand this!)
+
+        const emoticons = {
+
+            ':cool:': '<img src="cool.png" alt="Cool" width="16" height="16">',
+
+            ':smiley:': '<img src="smiley.png" alt="Smiley" width="16" height="16">',
+
+            ':sad:': '<img src="sad.png" alt="Sad" width="16" height="16">',
+
+            ':wink:': '<img src="wink.png" alt="Wink" width="16" height="16">',
+
+            ':heart:': '<img src="heart.png" alt="Heart" width="16" height="16">',
+
+            ':steammocking:' : '<img src="steammocking.png" alt="blehehe" width="16" height="16"',
+
+        };
+
+
+
+        // Function to replace emoticon codes with images
+
+        function replaceEmoticons(text) {
+
+            for (let code in emoticons) {
+
+                text = text.replace(new RegExp(code, 'g'), emoticons[code]);
+
+            }
+
+            return text;
+
         }
+
+
+        // Fetch comments from Firebase
+
+        async function fetchComments() {
+
+            onValue(commentsRef, (snapshot) => {
+
+                const comments = snapshot.val();
+
+                const commentsList = document.getElementById('commentsList');
+
+                commentsList.innerHTML = '';
+
+                if (comments) {
+
+                    for (let id in comments) {
+
+                        const comment = comments[id];
+
+                        const commentElement = document.createElement('li');
+
+                        commentElement.classList.add('comment');
+
+                        commentElement.innerHTML = `
+
+                            <h3>${comment.username}</h3>
+
+                            <p>${replaceEmoticons(comment.text)}</p>
+
+                        `;
+
+                        commentsList.appendChild(commentElement);
+
+                    }
+
+                }
+
+            });
+
+        }
+
 
         // Submit a new comment to Firebase
         async function submitComment(username, comment) {

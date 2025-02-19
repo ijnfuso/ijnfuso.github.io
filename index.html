@@ -370,6 +370,68 @@
             socialWindow.style.cursor = "grab";
         });
     </script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyARrZ2Yla8D7MH2JtoHxBD_0eJ9R1axgpY",
+            authDomain: "comments-c1817.firebaseapp.com",
+            databaseURL: "https://comments-c1817-default-rtdb.europe-west1.firebasedatabase.app/",
+            projectId: "comments-c1817",
+            storageBucket: "comments-c1817.firebasestorage.app",
+            messagingSenderId: "965553376961",
+            appId: "1:965553376961:web:2b293f267caff97bf48e40"
+        };
+    
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+    
+        // Fetch comments from Firebase
+        async function fetchComments() {
+            const commentsRef = database.ref('comments');
+            commentsRef.on('value', (snapshot) => {
+                const comments = snapshot.val();
+                const commentsList = document.getElementById('commentsList');
+                commentsList.innerHTML = '';
+                for (let id in comments) {
+                    const comment = comments[id];
+                    const commentElement = document.createElement('li');
+                    commentElement.classList.add('comment');
+                    commentElement.innerHTML = `
+                        <h3>${comment.username}</h3>
+                        <p>${comment.text}</p>
+                    `;
+                    commentsList.appendChild(commentElement);
+                }
+            });
+        }
+    
+        // Submit a new comment to Firebase
+        async function submitComment(username, comment) {
+            const commentsRef = database.ref('comments');
+            const newCommentRef = commentsRef.push();
+            newCommentRef.set({
+                username: username,
+                text: comment
+            });
+        }
+    
+        // Event listener for form submission
+        const commentsForm = document.getElementById('commentsForm');
+        commentsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const comment = document.getElementById('comment').value;
+            submitComment(username, comment);
+            commentsForm.reset();
+        });
+    
+        // Fetch comments on page load
+        fetchComments();
+    </script>
+    <!-- Add Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
 <!-- Script per il background galassia con gradiente Snow Leopard-like -->
 <script>
     const canvas = document.getElementById('galaxyCanvas');

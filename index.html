@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+            <style>.lw { font-size: 60px; }</style>
+        </head>
+        <body>
+            
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ijnfuso</title>
+    <style>
+        body {
+            background-color: #2E147A;
+            color: #e1e1e1;
+            font-family: 'cascadia code', Arial, sans-serif;
+            font-weight: 200;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background-color: rgba(7, 3, 28, 0.65);
+            width: 80%;
+            max-width: 1000px;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            position: relative;
+            margin-top: 40px;
+        }
+
+        /* Background galassia con gradiente Snow Leopard-like */
+        .galaxy-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @keyframes moveStars {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .title-bar {
+            background-color: #333;
+            font-family: 'Helvetica Neue', Arial;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            border-radius: 10px 10px 0 0;
+            padding: 0 10px;
+        }
+
+        .title-bar .buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: 10px;
+            margin-right: 15px;
+        }
+
+        .title-bar .button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #bbb;
+            cursor: pointer;
+        }
+
+        .title-bar .button:hover {
+            background-color: #fff;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin: 0;
+            color: #CB49CD;
+        }
+
+        header p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        section {
+            margin: 20px 0;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 400;
+            text-align: center;
+            color: #B13DBC;
+        }
+        h4 {
+            font-size: 24px;
+            font-weight: 400;
+            text-align: center;
+            color: #B13DBC;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .project {
+            background-color: rgba(7, 3, 28, 0.65);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .project:hover {
+            transform: scale(1.05);
+            background-color: rgba(115, 35, 122, 0.55);
+        }
+
+        .project h3 {
+            font-size: 20px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        .project p {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #fff;
+            background-color: #2E147A;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.7s ease;
+        }
+
+        a:hover {
+            background-color: #4B1352;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 40px;
+            color: #ccc;
+        }
+
+        .social-container {
+            position: absolute;
+            top: 90px; /* Spostato più giù */
+            right: 20px;
+            background-color: rgba(7, 3, 28, 0.65);
+            width: 250px;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-container .title-bar {
+            padding: 0 10px;
+            font-family: 'Helvetica Neue', Arial;
+        }
+
+        .social-container .buttons {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        .social-container a {
+            display: block;
+            margin-top: 10px;
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .social-container a:hover {
+            color: #DF0F0F;
+        }
+
+        .social-container img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .social-container div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+    </style>
+
+
+
+<!-- Background galassia (gradiente Snow Leopard-like) -->
+<canvas class="galaxy-bg" id="galaxyCanvas" width="1312" height="890"></canvas>
+
+<!-- Container principale -->
+<div class="container">
+    <!-- Barra del titolo -->
+    <div class="title-bar">
+        <div class="buttons">
+            <div class="button" style="background-color: #DF0F0F;"></div>
+            <div class="button" style="background-color: #FFDD00;"></div>
+            <div class="button" style="background-color: #3CBA54;"></div>
+        </div>
+        <span class="center">index.command</span>
+    </div>
+
+    <header>
+        <h1>ijnfuso</h1>
+        <p>hiii i'm fuso :3 welcome to my amazing page</p>
+    </header>
+
+    <section>
+        <h2>About Me</h2>
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <img src="profile.jpg" alt="ijnfuso" class="profile-img"> 
+            <p>
+                i'm ijnfuso, a silly guy from italy :3. i'm a c++ programmer, will get to python and java soon; i play quite some games, mainly gmod, tf2, webfishing and skyrim. i make thingamabobs and doohickeys. quite silly i am. you can add me on any of my socials listed on the window next here! <br> i also am a femboy :3
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>my thingamabobs !</h2>
+        <div class="projects">
+            <div class="project">
+                <h4>thingymabob 1:</h4>
+                <h3>floppy dos</h3>
+                <p>a simple collection of DOS programs and utilities all in a floppy disk sized file. useful for old systems repair, formatting partitions... includes some games ;^)</p>
+                <a href="https://github.com/ijnfuso/floppydos">take me there!!!</a>
+            </div>
+            <div class="project">
+                <h4>thingymabob 2:</h4>
+                <p>uhhh idk still working on it bleeehehe<br> find me on steam mate</p>
+                <a href="https://steamcommunity.com/id/ijnfuso"><img src="steam.jpg" alt="my silly steam profile x3"></a>
+            </div>
+            <div class="project">
+                <h3>spotify!</h3>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3McwsejHmMdCFPsppmDPCC?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0ZACo5j8b7g8NTett7aQYq?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 ijnfuso™</p>
+    </footer>
+</div>
+
+<!-- Container per i social -->
+<div class="social-container">
+    <div class="title-bar">
+        <div class="buttons">
+            <div class="button" style="background-color: #DF0F0F;"></div>
+            <div class="button" style="background-color: #FFDD00;"></div>
+            <div class="button" style="background-color: #3CBA54;"></div>
+        </div>
+        <span class="center">social.command</span>
+    </div>
+    <div>
+        <img src="discord-icon.png" alt="Discord">
+        <span>Discord</span>
+    </div>
+    <div>
+        <img src="twitter-icon.png" alt="Twitter">
+        <span>Twitter</span>
+    </div>
+    <div>
+        <img src="bluesky-icon.png" alt="Bluesky">
+        <span>Bluesky</span>
+    </div>
+    <div>
+        <img src="mr-icon.png" alt="Macintosh Repository">
+        <span>Macintosh Repository</span>
+    </div>
+</div>
+
+<!-- Script per il background galassia con gradiente Snow Leopard-like -->
+<script>
+    const canvas = document.getElementById('galaxyCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [];
+    let numStars = 500;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Crea stelle casuali
+    function createStars() {
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.3,
+                speed: Math.random() * 0.4 + 0.1
+            });
+        }
+    }
+
+    // Disegna stelle sul canvas
+    function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Gradiente Snow Leopard-like
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, "#8E4BA8");
+        gradient.addColorStop(1, "#1D0A51");
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'white';
+        for (let star of stars) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Animazione movimento stelle
+    function animateStars() {
+        for (let star of stars) {
+            star.x -= star.speed;
+            if (star.x < 0) {
+                star.x = canvas.width;
+            }
+        }
+        drawStars();
+        requestAnimationFrame(animateStars);
+    }
+
+    createStars();
+    animateStars();
+</script>
+
+
+
+
+            <script>// Write JavaScript here</script>
+        
+    
+</body>

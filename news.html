@@ -72,6 +72,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
     <script>
+         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+         import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
         // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDwzEEt1c_sWSMMuTuGQmgFWMgzPlNhHUQ",
@@ -83,44 +85,31 @@
             measurementId: "G-CF59HDT56L"
         };
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+        const app = initializeApp(firebaseConfig);
+  
+  // Initialize Firestore
+  const db = getFirestore(app);
 
-        // Function to get posts from Firestore
-        async function loadPosts() {
-            const postsContainer = document.getElementById("posts-container");
+  // Fetch blog posts from Firestore
+  const postsContainer = document.getElementById('posts-container');
 
-            postsContainer.innerHTML = `<div class="firebase-loading">Loading posts...</div>`;
+  const fetchPosts = async () => {
+    const postsQuery = query(collection(db, 'posts'), orderBy('date', 'desc'));
+    const querySnapshot = await getDocs(postsQuery);
+    querySnapshot.forEach((doc) => {
+      const post = doc.data();
+      const postElement = document.createElement('div');
+      postElement.classList.add('post');
+      postElement.innerHTML = `
+        <h2>${post.title}</h2>
+        <p>${post.content}</p>
+        <small>${new Date(post.date.seconds * 1000).toLocaleString()}</small>
+      `;
+      postsContainer.appendChild(postElement);
+    });
+  };
 
-            try {
-                const snapshot = await db.collection("news").orderBy("date", "desc").get();
-                const posts = snapshot.docs.map(doc => doc.data());
-
-                if (posts.length > 0) {
-                    postsContainer.innerHTML = "";
-                    posts.forEach(post => {
-                        const postElement = document.createElement("div");
-                        postElement.classList.add("post");
-
-                        postElement.innerHTML = `
-                            <h2 class="post-title">${post.title}</h2>
-                            <p class="post-date">${new Date(post.date.seconds * 1000).toLocaleDateString()}</p>
-                            <div class="post-content">${post.content}</div>
-                        `;
-
-                        postsContainer.appendChild(postElement);
-                    });
-                } else {
-                    postsContainer.innerHTML = `<p>No posts available.</p>`;
-                }
-            } catch (error) {
-                postsContainer.innerHTML = `<p>Error loading posts: ${error.message}</p>`;
-            }
-        }
-
-        // Call the loadPosts function when the page loads
-        window.onload = loadPosts;
+  fetchPosts();
     </script>
 
 </body>

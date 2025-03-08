@@ -94,7 +94,7 @@
             postsContainer.innerHTML = `<div class="firebase-loading">Loading posts...</div>`;
 
             try {
-                const snapshot = await db.collection("posts").orderBy("date", "desc").get();
+                const snapshot = await db.collection("news").orderBy("date", "desc").get();
                 const posts = snapshot.docs.map(doc => doc.data());
 
                 if (posts.length > 0) {

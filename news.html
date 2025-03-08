@@ -68,13 +68,11 @@
     </footer>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-         import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
-        // Your Firebase configuration
+       
         const firebaseConfig = {
             apiKey: "AIzaSyDwzEEt1c_sWSMMuTuGQmgFWMgzPlNhHUQ",
             authDomain: "blognews-78f58.firebaseapp.com",
@@ -85,17 +83,15 @@
             measurementId: "G-CF59HDT56L"
         };
 
-        const app = initializeApp(firebaseConfig);
-  
-  // Initialize Firestore
-  const db = getFirestore(app);
+        // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
-  // Fetch blog posts from Firestore
-  const postsContainer = document.getElementById('posts-container');
+const db = firebase.firestore();
+const postsContainer = document.getElementById('posts-container');
 
-  const fetchPosts = async () => {
-    const postsQuery = query(collection(db, 'posts'), orderBy('date', 'desc'));
-    const querySnapshot = await getDocs(postsQuery);
+// Fetch posts
+db.collection('posts').orderBy('date', 'desc').get()
+  .then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const post = doc.data();
       const postElement = document.createElement('div');
@@ -107,9 +103,10 @@
       `;
       postsContainer.appendChild(postElement);
     });
-  };
-
-  fetchPosts();
+  })
+  .catch((error) => {
+    console.error('Error getting documents: ', error);
+  });
     </script>
 
 </body>

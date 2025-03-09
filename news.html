@@ -44,6 +44,24 @@
     .post h3 {
       font-size: 1.5em;
     }
+    .post h4 {
+      font-size: 1.5em;
+      color: #ff3131;
+      text-align: center;
+      #blink_text{	
+  animation-name:blink;
+  width:280px;
+  animation-duration:2s;
+  animation-timing-function:ease-in;
+  animation-iteration-count:Infinite;
+  }
+
+@keyframes blink{
+  0%{color:red;}
+  50%{color:white;}
+  100%{color:red;}
+}
+    }
 
     .post p {
       line-height: 1.6;
@@ -65,7 +83,8 @@
 
     .post-title {
       font-size: 2em;
-      color: #2539f0;
+      font-weight: bold;
+      color: #ffffff;
     }
 
     .post-content {
@@ -86,6 +105,7 @@
     
         <!-- Post 1 -->
         <div class="post">
+            <h4>New !!!</h4>
           <h2 class="post-title">The Hungarian Crisis: Allied Forces Mobilize Against the Red Menace</h2>
           <p class="date">March 12, 1934 – Vaduz, Austro-Helvetic Empire</p>
           <div class="post-content">

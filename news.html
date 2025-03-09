@@ -20,7 +20,7 @@
 
         h1 {
             margin: 20px;
-            color: #DF0F0F;
+            color: #1e69f5;
         }
 
         .post {
@@ -32,7 +32,7 @@
         }
 
         .post-title {
-            color: #DF0F0F;
+            color: #1e69f5;
             font-size: 1.8rem;
         }
 
@@ -49,62 +49,37 @@
             margin-top: 20px;
             color: #888;
         }
-
-        .firebase-loading {
-            font-size: 1.5rem;
-            color: #DF0F0F;
-            text-align: center;
-            margin-top: 50px;
-        }
     </style>
 </head>
 <body>
 
     <h1>The Vaduz Telegraph</h1>
-    <div id="posts-container"></div>
+    <div class="content">
+    
+        <!-- Post 1 -->
+        <div class="post">
+          <h2 class="post-title">The Hungarian Crisis: Allied Forces Mobilize Against the Red Menace</h2>
+          <p class="date">March 12, 1934 – Vaduz, Austro-Helvetic Empire</p>
+          <div class="post-content">
+            <p>The fires of revolution have ignited in Hungary, as radical communist factions, emboldened by external support and internal unrest, have seized control of Budapest. The self-proclaimed "Hungarian People's Republic" has declared its intention to overthrow the existing order in Central Europe, sending shockwaves through the region. In response, the Austro-Helvetic Empire, alongside Czechoslovakia, Romania, and Yugoslavia, has vowed to restore order and prevent the spread of Bolshevism.</p>
+            <p>Reports from the front indicate that government loyalists and counter-revolutionary militias have been overwhelmed in key cities, prompting an urgent call for foreign assistance. His Imperial Majesty, Emperor Alwien IV, addressed the nation from Vaduz, stating:</p>
+            <blockquote>
+              "The plague of communism will not be allowed to consume Central Europe. Our duty is clear: to stand in defense of order, stability, and the sovereign rights of nations. The Austro-Helvetic Empire shall not waver in this cause."
+            </blockquote>
+            <p>The bloodiest battle of the conflict so far has unfolded in the strategic city of Sopron, where Austro-Helvetic forces met fierce resistance from entrenched communist divisions. The engagement, lasting nearly two weeks, has resulted in devastating losses on both sides, marking a grim chapter in the war.</p>
+            <p>Austro-Helvetic General Leopold von Waldersee led the assault, expecting a swift breakthrough. However, the communist defenders, commanded by revolutionary leader János Vas, turned the city into a veritable fortress, using barricaded streets, railway stations, and factory complexes as strongpoints. Mortar fire and relentless machine-gun nests stalled the Austro-Helvetic advance, forcing a brutal, house-to-house battle.</p>
+            <p>Eyewitness reports describe entire districts reduced to rubble, with neither side willing to retreat. Civilians, caught in the crossfire, fled in mass exodus or took shelter in cellars as the battle raged. The Austro-Helvetic 3rd Army suffered catastrophic losses in an attempt to capture the city's main railway junction, a crucial supply hub for communist forces. The Hungarians, though outgunned, held their ground with sheer determination, leading to some of the most vicious hand-to-hand combat recorded in the war.</p>
+            <p>It was only after relentless artillery bombardments and reinforcements from the 5th Imperial Division that the Austro-Helvetic forces managed to encircle the remaining communist units. On March 10, after suffering unsustainable casualties, the defenders of Sopron were finally overrun. However, the victory came at a terrible cost: over 15,000 Austro-Helvetic soldiers perished, while Hungarian casualties are estimated to be even higher. The city itself is now a smoldering ruin, a testament to the brutal nature of this war.</p>
+            <p>Despite the heavy toll at Sopron, the Austro-Helvetic military command considers the victory crucial for the broader campaign. With western Hungary partially secured, the advance towards Győr continues, while Romanian and Yugoslav forces intensify their pressure on the eastern and southern fronts. The battle for Budapest, however, still looms on the horizon, and it is uncertain whether the communists will withdraw or make a desperate last stand.</p>
+          </div>
+        </div>
+    
+        <!-- You can easily add more posts here by following the structure of the above post -->
 
     <footer>
-        <p>© 2025 Ijnfuso | Built with Firebase</p>
+        <p>© 1934 The Vaduz Telegraph | Founded by the Austro-Helvetic Government</p>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
-    <script>
-       
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwzEEt1c_sWSMMuTuGQmgFWMgzPlNhHUQ",
-            authDomain: "blognews-78f58.firebaseapp.com",
-            projectId: "blognews-78f58",
-            storageBucket: "blognews-78f58.firebasestorage.app",
-            messagingSenderId: "891666408228",
-            appId: "1:891666408228:web:7cf3ff501926f5926809b1",
-            measurementId: "G-CF59HDT56L"
-        };
-
-        // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-const postsContainer = document.getElementById('posts-container');
-
-// Fetch posts
-db.collection('posts').orderBy('date', 'desc').get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const post = doc.data();
-      const postElement = document.createElement('div');
-      postElement.classList.add('post');
-      postElement.innerHTML = `<h2>${post.title}</h2>${post.content}`;
-
-      postsContainer.appendChild(postElement);
-    });
-  })
-  .catch((error) => {
-    console.error('Error getting documents: ', error);
-  });
-    </script>
-
+    
 </body>
 </html>

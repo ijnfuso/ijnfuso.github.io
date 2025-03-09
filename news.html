@@ -96,11 +96,8 @@ db.collection('posts').orderBy('date', 'desc').get()
       const post = doc.data();
       const postElement = document.createElement('div');
       postElement.classList.add('post');
-      postElement.innerHTML = `
-        <h2>${post.title}</h2>
-        <p>${post.content}</p>
-        <small>${new Date(post.date.seconds * 1000).toLocaleString()}</small>
-      `;
+      postElement.innerHTML = `<h2>${post.title}</h2>${post.content}`;
+
       postsContainer.appendChild(postElement);
     });
   })

@@ -317,7 +317,7 @@
 
 <!-- Container per i social -->
 
-    <div class="social-container" id="socialWindow" style="right: 149px; top: 89px; cursor: grab; left: 880px;">
+    <div class="social-container" id="socialWindow" style="right: 20px; top: 89px; cursor: grab;">
         <div class="title-bar" id="titleBar">
             <div class="buttons">
                 <div class="button" style="background-color: #DF0F0F;"></div>
@@ -352,6 +352,12 @@
         
         titleBar.addEventListener("mousedown", (e) => {
             isDragging = true;
+            // Convert right-based to left-based positioning on first drag
+            if (!socialWindow.style.left) {
+                const rect = socialWindow.getBoundingClientRect();
+                socialWindow.style.left = rect.left + "px";
+                socialWindow.style.right = "auto";
+            }
             offsetX = e.clientX - socialWindow.offsetLeft;
             offsetY = e.clientY - socialWindow.offsetTop;
             socialWindow.style.cursor = "grabbing";

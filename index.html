@@ -37,12 +37,10 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-y: auto;
             position: relative;
-            min-height: 100vh; /* Ensure full height is used */
-    overflow-y: scroll; /* Enable scrolling on the entire page */
         }
 
         .container {
@@ -54,7 +52,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             position: relative;
             margin-top: 40px;
-            
+            margin-bottom: 40px;
         }
 
         /* Background galassia con gradiente Snow Leopard-like */
